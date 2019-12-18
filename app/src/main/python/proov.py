@@ -3,14 +3,15 @@ import urllib.request, json
 
 import numpy as np
 
-path = str(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "data.txt")
-with open(path) as json_file:
+
+def getAndmed(path_str):
+    with open(path_str) as json_file:
         data = json.load(json_file)
     andmed = data.get("data")
     return andmed
 
-def tabel_andmetest():
-    rawAndmed = getAndmed()
+def tabel_andmetest(path):
+    rawAndmed = getAndmed(path)
     
     id = []
     application_code = []
@@ -80,16 +81,15 @@ def tabel_andmetest():
     )
     return andmed
 
-def biggestFunding():
-    data = tabel_andmetest();
+def biggestFunding(path):
+    data = tabel_andmetest(path);
     most_expensive = data.loc[data['approved_amount'].idxmax()]
     applicationround_title = most_expensive["applicationround_title"]
     approved_amount = most_expensive["approved_amount"]
     managing_organization_name = most_expensive["managing_organization_name"]
     name = most_expensive["name"]
     project_name = most_expensive["project_name"]
-    #return applicationround_title, approved_amount, managing_organization_name, name, project_name
-    return approved_amount
+    return applicationround_title, approved_amount, managing_organization_name, name, project_name
 
 def test(num):
     return num

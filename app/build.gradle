@@ -2,14 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.chaquo.python'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a", "x86_64", "arm64-v8a"
         }
         python {
             buildPython "py -3.7"
             pip {
+
                 install "pandas"
             }
         }

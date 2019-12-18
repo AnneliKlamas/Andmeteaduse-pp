@@ -3,7 +3,6 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -12,8 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,17 +18,20 @@ import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Informer{
     Context context = this;
+    Button button;
+
+    public static TextView status;
+    public static TextView text;
+    public static List<String> data = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,23 +47,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-        Button button = findViewById(R.id.button);
+
+        button = findViewById(R.id.button);
+        text = findViewById(R.id.text);
+        status = findViewById(R.id.status);
+        int counter = 0;
+        new fetchData(this).execute();
+        button.setEnabled(false);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView text = findViewById(R.id.text);
+                try {
+                    writeFile(data.get(0));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/data.txt";
                 if (! Python.isStarted()) {
-                    try {
-                        downloadAndStoreJson();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     Python.start(new AndroidPlatform(context));
                     Python py = Python.getInstance();
                     PyObject pym =py.getModule("proov");
-                    PyObject pyf = pym.callAttr("test", 1);
+                    PyObject pyf = pym.callAttr("biggestFunding", path);
                     text.setText(pyf.toString());
                 }
 
@@ -72,38 +76,27 @@ public class MainActivity extends AppCompatActivity {
          });
     }
 
-    private void downloadAndStoreJson() throws IOException, JSONException {
-
-
-        JSONObject json = JsonReader.readJsonFromUrl("https://toetused.kul.ee/public/applications/fetch?sort=submission_date%7Cdesc&page=1&per_page=20000000&applicant=&organization=&applicationround=&submissionDate=%7B%22start%22:null,%22end%22:null%7D");
-
-        String jsonString = json.toString();
-        byte[] jsonArray = jsonString.getBytes();
-
-        File fileToSaveJson = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "data.txt");
-
-
-
-        BufferedOutputStream bos;
-        try {
-            bos = new BufferedOutputStream(new FileOutputStream(fileToSaveJson));
-            bos.write(jsonArray);
-            bos.flush();
-            bos.close();
-
-        } catch (FileNotFoundException e4) {
-            // TODO Auto-generated catch block
-            e4.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        finally {
-            jsonArray=null;
-            System.gc();
-        }
-
+    @Override
+    public void onTaskDone(String output) {
+        data.add(output);
+        status.setText("Ready");
+        button.setEnabled(true);
     }
+
+    public void writeFile(String content) throws IOException {
+        File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+        File file = new File(path, "data.txt");
+        FileOutputStream stream = new FileOutputStream(file);
+        try {
+            String trueContent = content.substring(0, content.length() - 4);
+            stream.write(trueContent.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            stream.close();
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
