@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements Informer{
     Context context = this;
     Button button;
 
-    public static TextView status;
     public static TextView text;
     public static List<String> data = new ArrayList<>();
 
@@ -50,13 +49,16 @@ public class MainActivity extends AppCompatActivity implements Informer{
 
         button = findViewById(R.id.button);
         text = findViewById(R.id.text);
-        status = findViewById(R.id.status);
+
         int counter = 0;
         new fetchData(this).execute();
+        button.setText("Getting data");
         button.setEnabled(false);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                button.setEnabled(false);
+                button.setText("Loading data");
                 try {
                     writeFile(data.get(0));
                 } catch (IOException e) {
@@ -69,9 +71,9 @@ public class MainActivity extends AppCompatActivity implements Informer{
                     PyObject pym =py.getModule("proov");
                     PyObject pyf = pym.callAttr("biggestFunding", path);
                     text.setText(pyf.toString());
+                    button.setText("Ready");
+                    button.setEnabled(true);
                 }
-
-
             }
          });
     }
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements Informer{
     @Override
     public void onTaskDone(String output) {
         data.add(output);
-        status.setText("Ready");
+        button.setText("Ready");
         button.setEnabled(true);
     }
 
