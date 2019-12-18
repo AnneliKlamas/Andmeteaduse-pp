@@ -14,7 +14,7 @@ android {
                 install "pandas"
             }
         }
-        applicationId "com.example.myapplication"
+        applicationId "com.example.andmeteadusProjekt"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
