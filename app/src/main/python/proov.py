@@ -193,8 +193,7 @@ def regressionLog(path):
 
 
 def guess(for_guessing, path):
-    feature_cols = ["domain_name", "requested_amount"]
-    X = for_guessing[feature_cols]
+    X = for_guessing
     table = data_table(path)
     print(X)
 
@@ -202,11 +201,11 @@ def guess(for_guessing, path):
     domain_name_encoder = enc1.fit(table.domain_name.unique())
     domain_int = domain_name_encoder.transform(X.domain_name)
     X.domain_name = domain_int
-    print(X[0])
+    print(X)
 
 
     teacher = decisionTree(path)
-    result = teacher.predict(X)
+    result = teacher.predict(pd.DataFrame({"domain_name": X["domain_name"], "requested_amount": X["requested_amount"]}))
     return result
 
 def guessData(category, sum, path):

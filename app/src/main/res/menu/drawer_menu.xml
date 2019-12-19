@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_introduction"
+            android:icon="@drawable/ic_itroduction"
+            android:title="Introduction" />
+        <item
+            android:id="@+id/nav_get_grant"
+            android:icon="@drawable/ic_get_grant"
+            android:title="Would You get grant?" />
+        <item
+            android:id="@+id/nav_top_biggest"
+            android:icon="@drawable/ic_top_biggest"
+            android:title="Find out who got the biggest grant" />
+        <item
+            android:id="@+id/nav_top_smallest"
+            android:icon="@drawable/ic_top_smallest"
+            android:title="Find out who got the smallest grant" />
+    </group>
+</menu>
