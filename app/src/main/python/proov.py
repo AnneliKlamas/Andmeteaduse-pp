@@ -235,7 +235,7 @@ def smallestFunding(path):
     managing_organization_name = cheapest["managing_organization_name"]
     name = cheapest["name"]
     project_name = cheapest["project_name"]
-    return applicationround_title, approved_amount, managing_organization_name, name, project_name
+    return [applicationround_title, approved_amount, managing_organization_name, name, project_name]
 
 def uniqDoms(path):
     data = data_table(path)
