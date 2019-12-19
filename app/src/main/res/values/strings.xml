@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">My Application</string>
+
+    <!--For blind people-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!--For blind people
+    Muusika, 'Rahvakultuur', 'Välissuhted',
+    'Regionaalne kultuuritegevus', 'Audiovisuaal', 'Raamatukogud',
+    'Sport', 'Teater', 'Kultuur ja sport Ida-Virumaal',
+    'Saarte pärimuskultuur', 'Pereõpe', 'Virumaa pärimuskultuur',
+    'Mulgimaa pärimuskultuur', 'Kultuur ja sport', 'Kultuuripärand',
+    'Rahvuskultuur', 'Regionaalia', 'Rahvakultuuri keskseltsid',
+    'Baasfinantseerimine', 'Arhitektuur ja disain'-->
+
+    <string-array name="categories">
+        <item>Muusika</item>
+        <item>Rahvakultuur</item>
+        <item>Välissuhted</item>
+        <item>Regionaalne kultuuritegevus</item>
+        <item>Audiovisuaal</item>
+        <item>Raamatukogud</item>
+        <item>Sport</item>
+        <item>Kultuur ja sport Ida-Virumaal</item>
+        <item>Saarte pärimuskultuur</item>
+        <item>Pereõpe</item>
+        <item>Virumaa pärimuskultuur</item>
+        <item>Mulgimaa pärimuskultuur</item>
+        <item>Kultuur ja sport</item>
+        <item>Kultuuripärand</item>
+        <item>Rahvuskultuur</item>
+        <item>Regionaalia</item>
+        <item>Rahvakultuuri keskseltsid</item>
+        <item>Baasfinantseerimine</item>
+        <item>Arhitektuur ja disain</item>
+
+
+
+
+
+    </string-array>
+
 </resources>
