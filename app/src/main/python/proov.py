@@ -192,26 +192,28 @@ def regressionLog(path):
     print(score)
 
 
-def guess(for_guessing, path):
+def guess(for_guessing, path, sum):
     X = for_guessing
     table = data_table(path)
-    print(X)
+    print(X["domain_name"])
 
     enc1 = preprocessing.LabelEncoder()
     domain_name_encoder = enc1.fit(table.domain_name.unique())
     domain_int = domain_name_encoder.transform(X.domain_name)
     X.domain_name = domain_int
-    print(X)
+    dom_int = X["domain_name"].item()
+    print(dom_int)
+    print(sum)
 
 
     teacher = decisionTree(path)
-    result = teacher.predict(pd.DataFrame({"domain_name": X["domain_name"], "requested_amount": X["requested_amount"]}))
+    result = teacher.predict(X)
     return result
 
 def guessData(category, sum, path):
 
     data = pd.DataFrame({"domain_name" : [category], "requested_amount" : [sum]})
-    return guess(data, path)
+    return guess(data, path, sum)[0]
 
 
 def biggestFunding(path):
